@@ -1,26 +1,22 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Récupérer les variables d'environnement
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
+// Vérifier que les variables existent
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error("Missing Supabase environment variables");
+  console.error('❌ Variables Supabase manquantes!')
+  console.error('URL:', supabaseUrl)
+  console.error('Key:', supabaseAnonKey)
+  throw new Error('Missing Supabase environment variables')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+console.log('✅ Supabase configuré avec succès!')
+console.log('📍 URL:', supabaseUrl)
 
-export type Company = {
-  id: string;
-  name: string;
-  sector: string | null;
-  notes: string | null;
-  ratings: Record<string, number>;
-  created_at: string;
-};
+// Créer et exporter le client Supabase
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-export type CompanyInput = {
-  name: string;
-  sector?: string | null;
-  notes?: string | null;
-  ratings?: Record<string, number>;
-};
+// Exporter également les variables pour utilisation éventuelle
+export { supabaseUrl, supabaseAnonKey }
