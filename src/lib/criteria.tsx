@@ -70,6 +70,8 @@ export const CRITERIA: Criterion[] = [
 
 export const TOTAL_MAX_STARS = CRITERIA.reduce((sum, c) => sum + c.maxStars, 0);
 
+export type Ratings = Record<string, number>;
+
 export type ScoreBand = {
   min: number;
   max: number;
@@ -138,11 +140,11 @@ export function getScoreBand(score: number): ScoreBand {
   return SCORE_BANDS.find((b) => score >= b.min && score <= b.max) ?? SCORE_BANDS[SCORE_BANDS.length - 1];
 }
 
-export function computeScore(ratings: Record<string, number>): number {
+export function computeScore(ratings: Ratings): number {
   const earned = CRITERIA.reduce((sum, c) => sum + (ratings[c.key] ?? 0), 0);
   return Math.round((earned / TOTAL_MAX_STARS) * 100);
 }
 
-export function getCriteriaCount(ratings: Record<string, number>): number {
+export function getCriteriaCount(ratings: Ratings): number {
   return CRITERIA.filter((c) => (ratings[c.key] ?? 0) > 0).length;
 }

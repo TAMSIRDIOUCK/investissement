@@ -1,0 +1,42 @@
+export const CRITERIA = [
+  { key: 'criteria_1', label: 'Critère 1' },
+  { key: 'criteria_2', label: 'Critère 2' },
+  { key: 'criteria_3', label: 'Critère 3' },
+  { key: 'criteria_4', label: 'Critère 4' },
+  { key: 'criteria_5', label: 'Critère 5' },
+  { key: 'criteria_6', label: 'Critère 6' },
+  { key: 'criteria_7', label: 'Critère 7' },
+  { key: 'criteria_8', label: 'Critère 8' },
+  { key: 'criteria_9', label: 'Critère 9' },
+  { key: 'criteria_10', label: 'Critère 10' },
+] as const
+
+export type RatingValue = 'yes' | 'no' | 'na' | null
+export type Ratings = Record<string, RatingValue>
+
+export function computeScore(ratings: Ratings): number {
+  const total = CRITERIA.length
+  const yesCount = CRITERIA.filter(c => ratings[c.key] === 'yes').length
+  return Math.round((yesCount / total) * 100)
+}
+
+export function getScoreBand(score: number): {
+  label: string
+  color: string
+  textColor: string
+} {
+  if (score >= 80) {
+    return { label: 'Excellent', color: '#22c55e', textColor: 'text-green-400' }
+  } else if (score >= 60) {
+    return { label: 'Bon', color: '#3b82f6', textColor: 'text-blue-400' }
+  } else if (score >= 40) {
+    return { label: 'Moyen', color: '#f59e0b', textColor: 'text-yellow-400' }
+  } else {
+    return { label: 'Faible', color: '#ef4444', textColor: 'text-red-400' }
+  }
+}
+
+export function getCriteriaCount(ratings: Ratings): number {
+  return CRITERIA.filter(c => ratings[c.key] === 'yes').length
+}
+
